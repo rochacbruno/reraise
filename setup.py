@@ -15,13 +15,13 @@ setup(
     url='http://github.com/dcramer/reraise',
     description='Reraise exceptions, like a boss.',
     long_description=__doc__,
-    package_dir={'': 'src'},
-    packages=find_packages('src'),
+    packages=find_packages(),
     license='Apache 2.0',
     zip_safe=False,
     extras_require={
         'tests': tests_require,
     },
+    install_requires=['six'],
     include_package_data=True,
     classifiers=[
         'Intended Audience :: Developers',

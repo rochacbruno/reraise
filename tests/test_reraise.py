@@ -1,5 +1,5 @@
+import reraise
 from unittest import TestCase
-from reraise import reraise_as
 
 
 def an_error():
@@ -11,13 +11,15 @@ class ReraiseAsTest(TestCase):
         try:
             try:
                 an_error()
-            except NotImplementedError as orig_exc:
-                reraise_as(ValueError)
+            except NotImplementedError:
+                reraise(ValueError)
             else:
                 self.fail('NotImplementedError was not raised')
         except ValueError as exc:
-            assert exc.message == ''
-            assert exc.__cause__ == orig_exc
+            assert str(exc) == ''
+            assert str(exc.__cause__) == 'foo bar'
+            assert isinstance(exc.__cause__, NotImplementedError)
+            assert isinstance(exc, ValueError)
         else:
             self.fail('ValueError was not re-raised')
 
@@ -25,12 +27,14 @@ class ReraiseAsTest(TestCase):
         try:
             try:
                 an_error()
-            except NotImplementedError as orig_exc:
-                reraise_as(ValueError('biz baz'))
+            except NotImplementedError:
+                reraise(ValueError('biz baz'))
             else:
                 self.fail('NotImplementedError was not raised')
         except ValueError as exc:
-            assert exc.message == 'biz baz'
-            assert exc.__cause__ == orig_exc
+            assert str(exc) == 'biz baz'
+            assert str(exc.__cause__) == 'foo bar'
+            assert isinstance(exc.__cause__, NotImplementedError)
+            assert isinstance(exc, ValueError)
         else:
             self.fail('ValueError was not re-raised')
