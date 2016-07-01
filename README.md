@@ -26,3 +26,10 @@ try:
 except IOError:
     reraise(MyCustomException)
 ```
+
+
+Created by:
+- David Cramer  - dcramer
+
+Contributors:
+- Bruno Rocha - rochacbruno
